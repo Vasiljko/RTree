@@ -58,8 +58,7 @@ class RTNode
     RTNode &get_child(int ind) const { return *entries[ind].tree; }
 
     void update_mbr();
-
-    void print_node(std::ostream &, int, int) const;
+    void insertEntry(Entry, RTNode_ptr&, int&);
 
     friend class RTree;
     friend struct Entry;

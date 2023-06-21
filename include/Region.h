@@ -72,7 +72,7 @@ public:
     }
 
     friend std::ostream& operator <<(std::ostream& os, const Region& r){
-        os<<"("<<r.upper_left.first<<","<<r.upper_left.second<<"), ("<<r.bottom_right.first<<","<<r.bottom_right.second<<")\n";
+        os<<"[("<<r.upper_left.first<<","<<r.upper_left.second<<"), ("<<r.bottom_right.first<<","<<r.bottom_right.second<<")]";
 
         return os;
     }
