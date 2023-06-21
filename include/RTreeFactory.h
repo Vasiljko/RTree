@@ -1,7 +1,7 @@
 #ifndef RTREEFACTORY_H
 #define RTREEFACTORY_H
 
-#include <RTree.h>
+#include "RTree.h"
 #include <memory>
 
 class RTreeFactory{
