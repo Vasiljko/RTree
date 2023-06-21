@@ -12,7 +12,7 @@ public:
             return std::unique_ptr<RTree>(nullptr);
         }
 
-        return std::unique_ptr<RTree>(new RTree(m, M, true));
+        return std::unique_ptr<RTree>(new RTree(m, M));
     }
 
 };
