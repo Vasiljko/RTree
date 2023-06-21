@@ -4,6 +4,8 @@
 #include <RTNode.h>
 
 #include <memory>
+#include <fstream>
+#include <cstring>
 
 class RTree{
     using RTNode_ptr = std::unique_ptr<RTNode>;
@@ -19,6 +21,18 @@ class RTree{
 public:
     void insert(std::pair<int, int> point){
         root->insert(Region{{point.first, point.second}, {point.first, point.second}}, root, h);
+    }
+
+    void construct_tree_from_file(std::string filepath){
+        std::ifstream ifs(filepath);
+
+        if(!ifs)
+            throw std::runtime_error(filepath + ": " + std::strerror(errno));
+
+        int f, s;
+        while(ifs >> f >> s){
+            insert(std::make_pair(f, s));
+        }
     }
 
     std::vector<Region> search(Region r){

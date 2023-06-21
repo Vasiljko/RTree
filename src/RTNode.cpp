@@ -21,10 +21,7 @@ void RTNode::print_tree(std::ostream &os, const RTNode& tree, int depth){
             q.pop();
 
             for(int i=0;i<node->entries.size();i++){
-                std::cout<<"{ ";
-                std::cout<<node->entries[i].region<<" with mbr = ";
-                std::cout<<node->entries[i].tree->mbr<<" ";
-                std::cout<<"} ";
+                std::cout<<node->entries[i].region<<" ";
                 if(cur_depth < depth)q.push(node->entries[i].tree.get());
             }
 
