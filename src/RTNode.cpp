@@ -21,7 +21,10 @@ void RTNode::print_tree(std::ostream &os, const RTNode& tree, int depth){
             q.pop();
 
             for(int i=0;i<node->entries.size();i++){
-                std::cout<<node->entries[i].region<<" ";
+                std::cout<<"{ ";
+                std::cout<<node->entries[i].region<<" with mbr = ";
+                std::cout<<node->entries[i].tree->mbr<<" ";
+                std::cout<<"} ";
                 if(cur_depth < depth)q.push(node->entries[i].tree.get());
             }
 
@@ -68,7 +71,7 @@ RTNode* RTNode::find_leaf_node(RTNode* tree, Region& region, int cur_depth, int 
     return find_leaf_node(tree->entries[id].tree.get(), region, cur_depth+1, depth);
 }
 
-void RTNode::insert(Region& region, RTNode_ptr& root, int &depth){
+void RTNode::insert(Region region, RTNode_ptr& root, int &depth){
     RTNode* leaf_node = find_leaf_node(root.get(), region, 1, depth);
 
     if(leaf_node->entries.size() < M){
@@ -336,4 +339,27 @@ void RTNode::insertEntry(Entry entry, RTNode_ptr& root, int &depth){
             }
         }
     }
+}
+
+void RTNode::internal_search(Region& r, RTNode* node, int& depth, int cur_depth, std::vector<Region>& regions){
+    if(cur_depth == depth){ //if leaf node
+        for(int i=0;i<node->entries.size();i++){
+            if(node->entries[i].region.intersect(r)){
+                regions.push_back(node->entries[i].tree->mbr);
+            }
+        }
+    }else{
+        for(int i=0;i<node->entries.size();i++){
+            if(node->entries[i].region.intersect(r)){
+                internal_search(r, node->entries[i].tree.get(), depth, cur_depth + 1, regions);
+            }
+        }
+    }
+}
+
+std::vector<Region> RTNode::search(Region& region, RTNode_ptr& root, int& depth){
+    std::vector<Region> regions;
+    internal_search(region, root.get(), depth, 1, regions);
+    
+    return regions;
 }

@@ -27,17 +27,20 @@ public:
         return 1LL*(upper_left.first - bottom_right.first)*(upper_left.second - bottom_right.second);
     }
 
-    bool intersect(Region& r) const{
-        if (upper_left.first == bottom_right.first || upper_left.second == bottom_right.second || r.bottom_right.first == r.upper_left.first || r.upper_left.second == r.bottom_right.second)
-            return false;
-   
-        if (upper_left.first > r.bottom_right.first || r.upper_left.first > bottom_right.first)
-            return false;
-    
-        if (bottom_right.second > r.upper_left.second || r.bottom_right.second > upper_left.second)
-            return false;
-    
-        return true;
+    static bool in_range(int value, int min, int max){ return (value >= min) && (value <= max); }
+
+    static bool regions_intersect(Region A, Region B){
+        bool intersect_x = in_range(A.upper_left.first, B.upper_left.first, B.bottom_right.first) ||
+                        in_range(B.upper_left.first, A.upper_left.first, A.bottom_right.first);
+
+        bool intersect_y = in_range(A.upper_left.second, B.upper_left.second, B.bottom_right.second) ||
+                        in_range(B.upper_left.second, A.upper_left.second, A.bottom_right.second);
+
+        return intersect_x && intersect_y;
+    }
+
+    bool intersect(Region r) const{
+        return regions_intersect(*this, r);
     }
     
     static Region calculate_mbr(const Region& f, const Region& s){

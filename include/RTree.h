@@ -17,8 +17,12 @@ class RTree{
 
     friend class RTreeFactory;
 public:
-    void insert(Region& r){
-        root->insert(r, root, h);
+    void insert(std::pair<int, int> point){
+        root->insert(Region{{point.first, point.second}, {point.first, point.second}}, root, h);
+    }
+
+    std::vector<Region> search(Region r){
+        return root->search(r, root, h);
     }
 
     friend std::ostream &operator<<(std::ostream &os, const RTree& tree)

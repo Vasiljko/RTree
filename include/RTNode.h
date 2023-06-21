@@ -59,11 +59,13 @@ class RTNode
 
     void update_mbr();
     void insertEntry(Entry, RTNode_ptr&, int&);
+    static void internal_search(Region&, RTNode*, int&, int, std::vector<Region>&);
 
     friend class RTree;
     friend struct Entry;
 public:
-    void insert(Region &, RTNode_ptr &, int&);
+    void insert(Region, RTNode_ptr &, int&);
+    std::vector<Region> search(Region&, RTNode_ptr&, int&);
     void print_tree(std::ostream &, const RTNode &, int);
 };
 
